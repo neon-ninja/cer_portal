@@ -11,4 +11,4 @@ State changes to the iframe, caused by clicks on menu links from outside the ifr
 To load pages into the iframe requested clicks on links outside of the iframe, or by using the browsers history, a new iframe is created every time and the old iframe is replaced with the new iframe. 
 Just setting a new src element on the old iframe causes duplication of entries in the browser history (one for the main page, one for the newly sourced element in the iframe), and makes using the browser history a rather unpleasant experience.
 
-All integrated webpages that need to be protected by Tuakiri/Shibboleth, are proxied through a "protected path" (/portal/auth/*). This configuration must be done in the proxy configuration of the hosting web server.
+All integrated webpages that need to be protected by Tuakiri/Shibboleth, are proxied through a "protected path" that is intercepted by Shibboleth. This configuration must be done in the proxy configuration of the hosting web server.
