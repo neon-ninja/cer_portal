@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style/main.css" type="text/css" media="print, screen"/>
+    <link rel="stylesheet" href="style/superfish.css" type="text/css" media="print, screen"/>
+    <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ba-hashchange.min.js"></script>
+    <script type="text/javascript" src="js/superfish.min.js"></script>
+
+    <script type="text/javascript">
+
+      // adjust size of main div when browser window is resized
+      function adjust_main_div() {
+        var height = parseInt($(window).height() - $('#header').height() - $('#menu').height());
+        $('#main').height(height);
+      } 
+
+      // load page into the iframe: create new iframe for each page
+      // and delete existing iframe. adjust querystring hash for
+      // bookmarking.
+      function load_page_into_iframe(url) {
+         var i = document.createElement("iframe");
+         i.src = url;
+         i.frameBorder = "0";
+         i.seamless= "seamless";
+         i.width = "100%";
+         i.height = "100%";
+         var myDiv = document.getElementById("main");
+         while (myDiv.firstChild) {
+           myDiv.removeChild(myDiv.firstChild);
+         }
+         document.getElementById("main").appendChild(i);
+         window.location.hash = '#' + url;
+      }
+
+      // refresh a page in iframe
+      function refresh() {
+        if (window.location.hash.endsWith('heatmap.cgi')) { 
+          load_page_into_iframe('auth/hpc/cgi-bin/noheader/heatmap.cgi');
+        }
+      }
+
+      // things to do when the page has been loaded
+      $(document).ready(function() {
+
+        adjust_main_div();
+
+        // load page defined in hash into iframe, if any hash is defined
+        if (location.hash === '') {
+          load_page_into_iframe('welcome.html');
+        } else {
+          load_page_into_iframe(location.hash.substr(1));
+        }
+
+        // define click-events on menu items
+        $('#home').click(function(){ load_page_into_iframe('welcome.html'); return false; });
+        $('.construction').click(function(){ load_page_into_iframe('construction.html'); return false; });
+        $('#cluster-status').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
+        $('#cluster-status_summary').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
+        $('#cluster-status_runningjobs').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/showq.cgi?type=Running'); return false; });
+        $('#cluster-status_queuedjobs').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/showq.cgi?type=Queued'); return false; });
+        $('#cluster-status_heatmaps').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/heatmap.cgi'); return false; });
+        $('#cluster-status_clustertop').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/clustertop.cgi'); return false; });
+        $('#cluster-status_nodeoverview').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/shownode.cgi'); return false; });
+        $('#cluster-history').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/statistics'); return false; });
+        $('#cluster-history_statistics').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/statistics'); return false; });
+        $('#cluster-history_auditrecords').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/auditrecords'); return false; });
+
+        // initialize menu
+        jQuery('ul.sf-menu').superfish({delay:0,speed:0});
+        // avoid menu popping open when back button is used in browser
+        $(window).unload(function(){
+            $('ul.sf-menu li.current').hideSuperfishUl();
+        });
+
+        $(window).hashchange( function(){
+            if (window.location.hash === "#/portal/") {
+              load_page_into_iframe('welcome.html');
+            } else {
+              load_page_into_iframe(window.location.hash.substr(1));
+            }
+        });
+
+        // set auto-refresh interval. mostly to auto-reload heatmap
+        setInterval(refresh, 180000);
+      });
+    </script>
+  </head>
+
+  <body onresize="adjust_main_div()">
+    <!-- header of the page. For positioning of div see stylesheet. -->
+    <div id="header">
+      <div class="heading">University of Auckland &#10147; Centre for eResearch &#10147; Portal</div>
+    </div>
+
+    <!-- main menu. for positioning of div see stylesheet. -->
+    <div id="menu">
+      <ul class="sf-menu">
+        <li><a id="home" href="#">Home</a></li>
+        <li><a class="construction" href="#">Account</a></li>
+        <li><a class="construction" href="#">Projects</a></li>
+        <li><a id="cluster-status" href="#">Cluster Status</a>
+          <ul>
+            <li><a id="cluster-status_summary" href="#">Summary</a></li>
+            <li><a id="cluster-status_runningjobs" href="#">Running Jobs</a></li>
+            <li><a id="cluster-status_queuedjobs" href="#">Queued Jobs</a></li>
+            <li><a id="cluster-status_heatmaps" href="#">Heatmaps</a></li>
+            <li><a id="cluster-status_nodeoverview" href="#">Node Overview</a></li>
+            <li><a id="cluster-status_clustertop" href="#">All Processes</a></li>
+          </ul>
+        </li>
+        <li><a id="cluster-history" href="#">Cluster History</a>
+          <ul>
+            <li><a id="cluster-history_statistics" href="#">Job Statistics</a></li>
+            <li><a id="cluster-history_auditrecords" href="#">Job Audit Records</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- this is where the main pages are loaded into. For positioning of div see stylesheet. -->
+    <div id="main">
+    </div>
+
+  </body>
+
+</html>

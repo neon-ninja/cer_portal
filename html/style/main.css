@@ -1,0 +1,48 @@
+div#header {
+  color:white;
+  background-color:#003366;
+  position:absolute;
+  padding-top:0px;
+  top:0;
+  left:0;
+  right:0;
+  height:40px;
+  font-size:18pt;
+}
+
+div#menu {
+  color:white;
+  background-color:#336699;
+  position:absolute;
+  padding-left:0px;
+  top:41px;
+  left:0;
+  right:0;
+  height:25px;
+  font-size:12pt; 
+}
+
+div#main {
+  background-color:white;
+  position:absolute;
+  background-color:#fff;
+  top:65px;
+  left:0;
+  right:0;
+  width:100%;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.heading {
+  padding-left: 6px;
+  padding-top: 6px; 
+  color: #fff;
+}
+
+td {
+  vertical-align:top
+}
+
