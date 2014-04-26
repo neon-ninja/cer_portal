@@ -1,7 +1,7 @@
 cer_portal
 ==========
 
-Slim portal to integrate various cluster-related web pages into a single website.
+Slim portal to integrate various cluster-related webpages into a single webpage.
 
 The disparate webpages are pulled into the portal via an iframe and displayed under a central header and menu structure.
 
