@@ -39,10 +39,8 @@
            if (!this.contentWindow.location.pathname.match(new RegExp(url+"$"))) {
               var tmp = document.createElement("a");
               tmp.href = this.contentWindow.location.href;
-              var tmpUrl = document.createElement("a");
-              tmpUrl.href = url;
               reload = false;
-              window.location.hash = '#' + tmpUrl.pathname + tmp.search;
+              window.location.hash = '#' + tmp.pathname + tmp.search;
            } 
          }
 
