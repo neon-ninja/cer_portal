@@ -19,9 +19,11 @@
       } 
 
       /*
-       * load page into the iframe: create new iframe for each page
-       * and delete existing iframe. adjust querystring hash for
-       * bookmarking.
+       * load page into a new iframe: create new iframe for each page that is visited either
+       * - by links outside of the iframe, like the main menu, or
+       * - by using the browser history
+       * and delete existing iframe.
+       * save state in hash in querystring hash to enable bookmarking.
        */
       function load_page_into_iframe(url) {
          var onloadCount = 0;
@@ -34,10 +36,10 @@
          ifr.onload = function() { 
            onloadCount += 1;
            /*
-            * make the link available in the hash if the url changed within the iframe,
-            * by clicking on a link on the page loaded in the frame.
+            * make the link available in hash in querystring if the url changed within the iframe,
+            * e.g. by clicking on a link on the page loaded in the frame.
             * onloadCount is > 1 in that case (onload is called once on the initial load).
-            * don't create a new frame in that case.
+            * don't cause the iframe to be recreated in that case.
             */
            if (onloadCount > 1) {
               var tmp = document.createElement("a");
@@ -53,7 +55,6 @@
          }
          document.getElementById("main").appendChild(ifr);
 
-         // TODO: can we simplify this and handle this as first onload event?
          reload = false;
          window.location.hash = '#' + url;
       }
