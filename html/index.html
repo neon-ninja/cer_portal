@@ -24,19 +24,22 @@
        * bookmarking.
        */
       function load_page_into_iframe(url) {
-         var i = document.createElement("iframe");
-         i.src = url;
-         i.frameBorder = "0";
-         i.seamless= "seamless";
-         i.width = "100%";
-         i.height = "100%";
-         i.onload = function() { 
+         var onloadCount = 0;
+         var ifr = document.createElement("iframe");
+         ifr.src = url;
+         ifr.frameBorder = "0";
+         ifr.seamless= "seamless";
+         ifr.width = "100%";
+         ifr.height = "100%";
+         ifr.onload = function() { 
+           onloadCount += 1;
            /*
-            * make the link available in the hash if the url changed in the iframe
-            * by clicking on an "internal" link.
+            * make the link available in the hash if the url changed within the iframe,
+            * by clicking on a link on the page loaded in the frame.
+            * onloadCount is > 1 in that case (onload is called once on the initial load).
             * don't create a new frame in that case.
             */
-           if (!this.contentWindow.location.pathname.match(new RegExp(url+"$"))) {
+           if (onloadCount > 1) {
               var tmp = document.createElement("a");
               tmp.href = this.contentWindow.location.href;
               reload = false;
@@ -48,14 +51,17 @@
          while (myDiv.firstChild) {
            myDiv.removeChild(myDiv.firstChild);
          }
-         document.getElementById("main").appendChild(i);
+         document.getElementById("main").appendChild(ifr);
+
+         // TODO: can we simplify this and handle this as first onload event?
+         reload = false;
          window.location.hash = '#' + url;
       }
 
       // refresh a page in iframe
       function refresh() {
         if (window.location.hash.match(new RegExp('heatmap.cgi$'))) { 
-          load_page_into_iframe('auth/hpc/cgi-bin/noheader/heatmap.cgi');
+          load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/heatmap.cgi');
         }
       }
 
@@ -66,24 +72,24 @@
 
         // load page defined in hash into iframe, if any hash is defined
         if (location.hash === '') {
-          load_page_into_iframe('welcome.html');
+          load_page_into_iframe('/portal/welcome.html');
         } else {
           load_page_into_iframe(location.hash.substr(1));
         }
 
         // define click-events on menu items
-        $('#home').click(function(){ load_page_into_iframe('welcome.html'); return false; });
-        $('.construction').click(function(){ load_page_into_iframe('construction.html'); return false; });
-        $('#cluster-status').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
-        $('#cluster-status_summary').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
-        $('#cluster-status_runningjobs').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/showq.cgi?type=Running'); return false; });
-        $('#cluster-status_queuedjobs').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/showq.cgi?type=Queued'); return false; });
-        $('#cluster-status_heatmaps').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/heatmap.cgi'); return false; });
-        $('#cluster-status_clustertop').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/clustertop.cgi'); return false; });
-        $('#cluster-status_nodeoverview').click(function(){ load_page_into_iframe('auth/hpc/cgi-bin/noheader/shownode.cgi'); return false; });
-        $('#cluster-history').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/statistics'); return false; });
-        $('#cluster-history_statistics').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/statistics'); return false; });
-        $('#cluster-history_auditrecords').click(function(){ load_page_into_iframe('auth/cerjobaudit/html/auditrecords'); return false; });
+        $('#home').click(function(){ load_page_into_iframe('/portal/welcome.html'); return false; });
+        $('.construction').click(function(){ load_page_into_iframe('/portal/construction.html'); return false; });
+        $('#cluster-status').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
+        $('#cluster-status_summary').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
+        $('#cluster-status_runningjobs').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/showq.cgi?type=Running'); return false; });
+        $('#cluster-status_queuedjobs').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/showq.cgi?type=Queued'); return false; });
+        $('#cluster-status_heatmaps').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/heatmap.cgi'); return false; });
+        $('#cluster-status_clustertop').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/clustertop.cgi'); return false; });
+        $('#cluster-status_nodeoverview').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/shownode.cgi'); return false; });
+        $('#cluster-history').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/statistics'); return false; });
+        $('#cluster-history_statistics').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/statistics'); return false; });
+        $('#cluster-history_auditrecords').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/auditrecords'); return false; });
 
         // initialize menu
         jQuery('ul.sf-menu').superfish({delay:0,speed:0});
@@ -92,10 +98,12 @@
             $('ul.sf-menu li.current').hideSuperfishUl();
         });
 
+        // called if the hash in the querystring changes, e.g. by clicking
+        // on a menu link, or by using the browsers back or forward buttons
         $(window).hashchange( function(){
             if (reload) {
               if (window.location.hash === "#/portal/") {
-                load_page_into_iframe('welcome.html');
+                load_page_into_iframe('/portal/welcome.html');
               } else {
                 load_page_into_iframe(window.location.hash.substr(1));
               }
