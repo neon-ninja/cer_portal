@@ -10,15 +10,19 @@
 
     <script type="text/javascript">
 
+      var reload = true;
+
       // adjust size of main div when browser window is resized
       function adjust_main_div() {
         var height = parseInt($(window).height() - $('#header').height() - $('#menu').height());
         $('#main').height(height);
       } 
 
-      // load page into the iframe: create new iframe for each page
-      // and delete existing iframe. adjust querystring hash for
-      // bookmarking.
+      /*
+       * load page into the iframe: create new iframe for each page
+       * and delete existing iframe. adjust querystring hash for
+       * bookmarking.
+       */
       function load_page_into_iframe(url) {
          var i = document.createElement("iframe");
          i.src = url;
@@ -26,6 +30,22 @@
          i.seamless= "seamless";
          i.width = "100%";
          i.height = "100%";
+         i.onload = function() { 
+           /*
+            * make the link available in the hash if the url changed in the iframe
+            * by clicking on an "internal" link.
+            * don't create a new frame in that case.
+            */
+           if (!this.contentWindow.location.pathname.match(new RegExp(url+"$"))) {
+              var tmp = document.createElement("a");
+              tmp.href = this.contentWindow.location.href;
+              var tmpUrl = document.createElement("a");
+              tmpUrl.href = url;
+              reload = false;
+              window.location.hash = '#' + tmpUrl.pathname + tmp.search;
+           } 
+         }
+
          var myDiv = document.getElementById("main");
          while (myDiv.firstChild) {
            myDiv.removeChild(myDiv.firstChild);
@@ -36,7 +56,7 @@
 
       // refresh a page in iframe
       function refresh() {
-        if (window.location.hash.endsWith('heatmap.cgi')) { 
+        if (window.location.hash.match(new RegExp('heatmap.cgi$'))) { 
           load_page_into_iframe('auth/hpc/cgi-bin/noheader/heatmap.cgi');
         }
       }
@@ -75,11 +95,14 @@
         });
 
         $(window).hashchange( function(){
-            if (window.location.hash === "#/portal/") {
-              load_page_into_iframe('welcome.html');
-            } else {
-              load_page_into_iframe(window.location.hash.substr(1));
+            if (reload) {
+              if (window.location.hash === "#/portal/") {
+                load_page_into_iframe('welcome.html');
+              } else {
+                load_page_into_iframe(window.location.hash.substr(1));
+              }
             }
+            reload = true;
         });
 
         // set auto-refresh interval. mostly to auto-reload heatmap
