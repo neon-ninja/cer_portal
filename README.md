@@ -5,7 +5,7 @@ Slim portal to integrate various cluster-related webpages into a single webpage.
 
 The disparate webpages are pulled into the portal via an iframe and displayed under a central header and menu structure.
 
-The state of the iframe, i.e. the loaded URL including query string and hash, is stored in the hash in the URL of the main page to enable bookmarking.
+The state of the iframe, i.e. the loaded URL including query string and hash, is stored in the hash of the URL of the main page to enable bookmarking.
 State changes to the iframe, caused by clicks on menu links from outside the iframe, by history changes using the browsers back and forward button, or by clicks on links of the page within the iframe are captured and stored.
 
 To load pages into the iframe requested clicks on links outside of the iframe, or by using the browsers history, a new iframe is created every time and the old iframe is replaced with the new iframe. 
