@@ -81,6 +81,7 @@
         // define click-events on menu items
         $('#home').click(function(){ load_page_into_iframe('/portal/welcome.html'); return false; });
         $('.construction').click(function(){ load_page_into_iframe('/portal/construction.html'); return false; });
+        $('#cluster-account').click(function(){ load_page_into_iframe('/portal/auth/ceraccount/html/view_account'); return false; });
         $('#cluster-status').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
         $('#cluster-status_summary').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
         $('#cluster-status_runningjobs').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/showq.cgi?type=Running'); return false; });
@@ -128,7 +129,7 @@
     <div id="menu">
       <ul class="sf-menu">
         <li><a id="home" href="#">Home</a></li>
-        <li><a class="construction" href="#">Account</a></li>
+        <li><a id="cluster-account" href="#">Account</a></li>
         <li><a class="construction" href="#">Projects</a></li>
         <li><a id="cluster-status" href="#">Cluster Status</a>
           <ul>
