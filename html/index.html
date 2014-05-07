@@ -81,18 +81,15 @@
         // define click-events on menu items
         $('#home').click(function(){ load_page_into_iframe('/portal/welcome.html'); return false; });
         $('.construction').click(function(){ load_page_into_iframe('/portal/construction.html'); return false; });
-        $('#project').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/request_project'); return false; });
         $('#project-request').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/request_project'); return false; });
         $('#project-membership-request').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/request_membership'); return false; });
         $('#cluster-account').click(function(){ load_page_into_iframe('/portal/auth/ceraccount/html/view_account'); return false; });
-        $('#cluster-status').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
         $('#cluster-status_summary').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/summary.cgi'); return false; });
         $('#cluster-status_runningjobs').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/showq.cgi?type=Running'); return false; });
         $('#cluster-status_queuedjobs').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/showq.cgi?type=Queued'); return false; });
         $('#cluster-status_heatmaps').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/heatmap.cgi'); return false; });
         $('#cluster-status_clustertop').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/clustertop.cgi'); return false; });
         $('#cluster-status_nodeoverview').click(function(){ load_page_into_iframe('/portal/auth/hpc/cgi-bin/noheader/shownode.cgi'); return false; });
-        $('#cluster-history').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/statistics'); return false; });
         $('#cluster-history_statistics').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/statistics'); return false; });
         $('#cluster-history_auditrecords').click(function(){ load_page_into_iframe('/portal/auth/cerjobaudit/html/auditrecords'); return false; });
 
@@ -134,13 +131,13 @@
         <li><a id="home" href="#">Home</a></li>
         <li><a id="cluster-account" href="#">Account</a></li>
         <li>
-          <a id="project" href="#">Projects</a>
+          <a id="project">Projects</a>
           <ul>
             <li><a id="project-request" href="#">Request new project</a></li>
             <li><a id="project-membership-request" href="#">Request membership to existing project</a></li>
           </ul>
         </li>
-        <li><a id="cluster-status" href="#">Cluster Status</a>
+        <li><a id="cluster-status">Cluster Status</a>
           <ul>
             <li><a id="cluster-status_summary" href="#">Summary</a></li>
             <li><a id="cluster-status_runningjobs" href="#">Running Jobs</a></li>
@@ -150,7 +147,7 @@
             <li><a id="cluster-status_clustertop" href="#">All Processes On Cluster</a></li>
           </ul>
         </li>
-        <li><a id="cluster-history" href="#">Cluster History</a>
+        <li><a id="cluster-history">Cluster History</a>
           <ul>
             <li><a id="cluster-history_statistics" href="#">Job Statistics</a></li>
             <li><a id="cluster-history_auditrecords" href="#">Job Audit Records</a></li>
