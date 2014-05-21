@@ -81,6 +81,7 @@
         // define click-events on menu items
         $('#home').click(function(){ load_page_into_iframe('/portal/welcome.html'); return false; });
         $('.construction').click(function(){ load_page_into_iframe('/portal/construction.html'); return false; });
+        $('#projects-manage').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/view_projects'); return false; });
         $('#project-request').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/request_project'); return false; });
         $('#project-membership-request').click(function(){ load_page_into_iframe('/portal/auth/cerproject/html/request_membership'); return false; });
         $('#cluster-account').click(function(){ load_page_into_iframe('/portal/auth/ceraccount/html/view_account'); return false; });
@@ -133,6 +134,7 @@
         <li>
           <a id="project">Projects</a>
           <ul>
+            <li><a id="projects-manage" href="#">Manage my projects</a></li>
             <li><a id="project-request" href="#">Request a new project</a></li>
             <li><a id="project-membership-request" href="#">Ask to join an existing project</a></li>
           </ul>
