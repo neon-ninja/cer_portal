@@ -2,12 +2,19 @@
 <html>
 
   <head>
+    <meta http-equiv="x-ua-compatible" content="IE=8">
     <link rel="stylesheet" href="style/main.css" type="text/css" media="print, screen"/>
     <link rel="stylesheet" href="style/superfish.css" type="text/css" media="print, screen"/>
     <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
     <script type="text/javascript" src="js/jquery.ba-hashchange.min.js"></script>
     <script type="text/javascript" src="js/superfish.min.js"></script>
-
+    <script type="text/javascript">var IE = false;</script>
+    <!--[if IE]>
+    <script type="text/javascript">
+      IE = true;
+      console.error("INTERNET EXPLORER DETECTED!!!");
+    </script>
+    <![endif]-->
     <script type="text/javascript">
 
       var reload = true;
@@ -26,6 +33,10 @@
        * save state in hash in querystring hash to enable bookmarking.
        */
       function load_page_into_iframe(url) {
+         if (IE) {
+           alert("Certain functionality in this website doesn't work in Internet Explorer. It is recommended that you switch to a different browser");
+           window.location = url;
+         }
          var onloadCount = 0;
          var ifr = document.createElement("iframe");
          ifr.src = url;
